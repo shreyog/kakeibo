@@ -1,0 +1,30 @@
+{
+  "name": "kakeibo-nodejs",
+  "version": "1.0.0",
+  "description": "Expense tracker app.",
+  "main": "src/app.js",
+  "scripts": {
+    "dev": "nodemon",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shreyog/kakeibo-nodejs.git"
+  },
+  "author": "Shreyog Nemlekar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shreyog/kakeibo-nodejs/issues"
+  },
+  "homepage": "https://github.com/shreyog/kakeibo-nodejs#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.10.9",
+    "nodemon": "^2.0.4",
+    "typedi": "^0.8.0",
+    "winston": "^3.3.3"
+  }
+}
