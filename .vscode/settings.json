@@ -5,6 +5,7 @@
         "mongodb",
         "mongodb uri",
         "typedi",
-        "uri"
+        "uri",
+        "uuidv"
     ]
 }

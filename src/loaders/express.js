@@ -1,5 +1,6 @@
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const helmet = require("helmet");
 const config = require("../config");
 
 module.exports = async ({ app }) => {
@@ -16,6 +17,9 @@ module.exports = async ({ app }) => {
   // Useful if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
   // It shows the real origin IP in the heroku or Cloudwatch logs
   app.enable("trust proxy");
+
+  // Helmet helps you secure your Express apps by setting various HTTP headers.
+  app.use(helmet());
 
   // Enable Cross Origin Resource Sharing to all origins by default
   app.use(cors());
