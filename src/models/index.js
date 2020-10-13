@@ -1,9 +1,14 @@
-const Users = require("./Users");
+const User = require("./User");
+const MonthlyBudget = require("./MonthlyBudget");
 
 const userModel = {
   name: "userModel",
-  model: Users,
+  model: User,
 };
 
+const monthlyBudgetModel = {
+  name: "monthlyBudgetModel",
+  model: MonthlyBudget,
+};
 
-module.exports = { models: [userModel] };
+module.exports = { models: [userModel, monthlyBudgetModel] };
