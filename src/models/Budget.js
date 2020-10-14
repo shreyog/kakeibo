@@ -24,19 +24,32 @@ const MonthlyFixedExpenseSchema = new Schema(
   }
 );
 
-const MonthlyBudgetSchema = new Schema(
+const WeeklyBudgetSchema = new Schema(
   {
-    user_id: { type: Types.ObjectId, ref: "User" },
-    monthly_income: { type: Number, required: true },
-    income_sources: { type: IncomeSourceSchema },
-    monthly_fixed_expenses: { type: MonthlyFixedExpenseSchema },
-    saving_goal: { type: Number, required: true },
+    weekly_budget_amount: { type: Number, default: 0 },
+    start_date: { type: Date },
+    end_date: { type: Date },
+    notes: { type: String },
   },
   {
     timestamps: true,
   }
 );
 
-const MonthlyBudget = model("MonthlyBudget", MonthlyBudgetSchema);
+const BudgetSchema = new Schema(
+  {
+    user_id: { type: Types.ObjectId, ref: "User" },
+    monthly_income: { type: Number, required: true },
+    income_sources: { type: IncomeSourceSchema },
+    monthly_fixed_expenses: { type: MonthlyFixedExpenseSchema },
+    saving_goal: { type: Number, required: true },
+    weekly_budget: { type: [WeeklyBudgetSchema] },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-module.exports = MonthlyBudget;
+const Budget = model("Budget", BudgetSchema);
+
+module.exports = Budget;

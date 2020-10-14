@@ -1,0 +1,18 @@
+const { model, Schema, Types } = require("mongoose");
+const { tags } = require("../constants");
+
+const { WANTS } = tags;
+
+const ExpenseSchema = new Schema(
+  {
+    transaction_name: { type: String },
+    tag: { type: String, default: WANTS },
+    date: { type: Date },
+    user_id: { type: Types.ObjectId, ref: "User" },
+  },
+  { timestamps: true }
+);
+
+const Expense = model("Expense", ExpenseSchema);
+
+module.exports = Expense;
