@@ -1,6 +1,9 @@
 const bodyParser = require("body-parser");
+
+const { errors} = require('celebrate');
 const cors = require("cors");
 const helmet = require("helmet");
+const router = require("../api");
 const config = require("../config");
 
 module.exports = async ({ app }) => {
@@ -28,7 +31,9 @@ module.exports = async ({ app }) => {
   app.use(bodyParser.json());
 
   // Load API routes
-  //    app.use(config.api.prefix, routes());
+  app.use(config.api.prefix, router);
+
+  app.use(errors());
 
   // catch 404 and forward to error handler
   app.use((req, res, next) => {
@@ -46,4 +51,8 @@ module.exports = async ({ app }) => {
       },
     });
   });
+
+  console.log(app._router.stack         
+    .filter(r => r.route)   
+    .map(r => r.route.path))
 };
