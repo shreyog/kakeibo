@@ -9,7 +9,7 @@ const UserSchema = new Schema(
   {
     id: { type: String, default: uuidv5 },
     full_name: { type: String },
-    user_name: { type: String, required: true },
+    user_name: { type: String, required: true, unique: true },
     dob: { type: Date },
     gender: { type: String },
     email: {
