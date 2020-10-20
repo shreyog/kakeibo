@@ -1,10 +1,13 @@
 const bodyParser = require("body-parser");
-
-const { errors} = require('celebrate');
+const express = require("express");
+const { errors } = require("celebrate");
 const cors = require("cors");
 const helmet = require("helmet");
+const xss = require("xss-clean");
+const mongoSanitize = require("express-mongo-sanitize");
+const compression = require("compression");
 const router = require("../api");
-const config = require("../config");
+const config = require("../config/config");
 
 module.exports = async ({ app }) => {
   /**
@@ -26,9 +29,20 @@ module.exports = async ({ app }) => {
 
   // Enable Cross Origin Resource Sharing to all origins by default
   app.use(cors());
+  app.options("*", cors());
 
   // Middleware that transforms the raw string of req.body into json
   app.use(bodyParser.json());
+
+  // parse urlencoded request body
+  app.use(express.urlencoded({ extended: true }));
+
+  // sanitize request data
+  app.use(xss());
+  app.use(mongoSanitize());
+
+  // gzip compression
+  app.use(compression());
 
   // Load API routes
   app.use(config.api.prefix, router);
@@ -52,7 +66,7 @@ module.exports = async ({ app }) => {
     });
   });
 
-  console.log(app._router.stack         
-    .filter(r => r.route)   
-    .map(r => r.route.path))
+  console.log(
+    app._router.stack.filter((r) => r.route).map((r) => r.route.path)
+  );
 };
