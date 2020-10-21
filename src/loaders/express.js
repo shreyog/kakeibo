@@ -1,15 +1,26 @@
 const bodyParser = require("body-parser");
 const express = require("express");
-const { errors } = require("celebrate");
 const cors = require("cors");
 const helmet = require("helmet");
 const xss = require("xss-clean");
 const mongoSanitize = require("express-mongo-sanitize");
 const compression = require("compression");
-const router = require("../api");
-const config = require("../config/config");
+const passport = require("passport");
+const { jwtStrategy } = require("./passport");
+const { NOT_FOUND } = require("http-status");
+const morgan = require("./morgan");
+const router = require("../routes");
+const config = require("../config");
+const { authLimiter } = require("../middlewares/rateLimiter");
+const { errorConverter, errorHandler } = require("../middlewares/error");
+const ApiError = require("../utils/ApiError");
 
 module.exports = async ({ app }) => {
+  if (config.env !== "test") {
+    app.use(morgan.successHandler);
+    app.use(morgan.errorHandler);
+  }
+
   /**
    * Health Check endpoints
    */
@@ -31,6 +42,15 @@ module.exports = async ({ app }) => {
   app.use(cors());
   app.options("*", cors());
 
+  // jwt authentication
+  app.use(passport.initialize());
+  passport.use("jwt", jwtStrategy);
+
+  // limit repeated failed requests to auth endpoints
+  if (config.env === "production") {
+    app.use("/api/auth", authLimiter);
+  }
+
   // Middleware that transforms the raw string of req.body into json
   app.use(bodyParser.json());
 
@@ -47,26 +67,14 @@ module.exports = async ({ app }) => {
   // Load API routes
   app.use(config.api.prefix, router);
 
-  app.use(errors());
-
-  // catch 404 and forward to error handler
+  // send back a 404 error for any unknown api request
   app.use((req, res, next) => {
-    const err = new Error("User Not Found");
-    err["status"] = 404;
-    next(err);
+    next(new ApiError(NOT_FOUND, "Not found"));
   });
 
-  // error handlers
-  app.use((err, req, res, next) => {
-    res.status(err.status || 500);
-    res.json({
-      errors: {
-        message: err.message,
-      },
-    });
-  });
+  // convert error to ApiError, if needed
+  app.use(errorConverter);
 
-  console.log(
-    app._router.stack.filter((r) => r.route).map((r) => r.route.path)
-  );
+  // handle error
+  app.use(errorHandler);
 };

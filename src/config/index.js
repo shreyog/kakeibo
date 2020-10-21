@@ -22,6 +22,9 @@ const envVarsSchema = Joi.object()
     JWT_REFRESH_EXPIRATION_DAYS: Joi.number()
       .default(30)
       .description("days after which refresh tokens expire"),
+    LOG_LEVEL: Joi.string().default("debug")
+      .required()
+      .description("winston log level is required"),
   })
   .unknown();
 
@@ -51,7 +54,7 @@ module.exports = {
     resetPasswordExpirationMinutes: 10,
   },
   logs: {
-    level: envVars.LOG_LEVEL || "silly",
+    level: envVars.LOG_LEVEL,
   },
   api: {
     prefix: "/api",
