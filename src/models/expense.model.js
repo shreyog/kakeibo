@@ -1,4 +1,5 @@
 const { model, Schema, Types } = require("mongoose");
+const { toJSON, paginate } = require("./plugins");
 const { tags } = require("../constants");
 
 const { WANTS } = tags;
@@ -12,6 +13,10 @@ const ExpenseSchema = new Schema(
   },
   { timestamps: true }
 );
+
+// add plugin that converts mongoose to json
+ExpenseSchema.plugin(toJSON);
+ExpenseSchema.plugin(paginate);
 
 const Expense = model("Expense", ExpenseSchema);
 
