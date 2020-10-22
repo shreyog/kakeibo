@@ -1,4 +1,5 @@
 const { Schema, model, Types } = require("mongoose");
+const { toJSON, paginate } = require("./plugins");
 
 const IncomeSourceSchema = new Schema(
   {
@@ -49,6 +50,10 @@ const BudgetSchema = new Schema(
     timestamps: true,
   }
 );
+
+// add plugin that converts mongoose to json
+BudgetSchema.plugin(toJSON);
+BudgetSchema.plugin(paginate);
 
 const Budget = model("Budget", BudgetSchema);
 

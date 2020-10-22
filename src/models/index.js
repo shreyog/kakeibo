@@ -1,6 +1,7 @@
-const User = require("./User");
-const Budget = require("./Budget");
-const Expense = require("./Expense");
+const User = require("./user.model");
+const Budget = require("./budget.model");
+const Expense = require("./expense.model");
+const Token = require("./token.model");
 
 const userModel = {
   name: "userModel",
@@ -17,4 +18,9 @@ const expenseModel = {
   model: Expense,
 };
 
-module.exports = { models: [userModel, budgetModel] };
+const tokenModel = {
+  name: "tokenModel",
+  model: Token,
+};
+
+module.exports = { models: [userModel, budgetModel, expenseModel, tokenModel] };
