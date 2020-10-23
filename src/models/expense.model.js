@@ -14,7 +14,6 @@ const ExpenseSchema = new Schema(
   { timestamps: true }
 );
 
-// add plugin that converts mongoose to json
 ExpenseSchema.plugin(toJSON);
 ExpenseSchema.plugin(paginate);
 
