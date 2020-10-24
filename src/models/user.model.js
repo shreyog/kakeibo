@@ -1,5 +1,5 @@
 const { model, Schema } = require("mongoose");
-const { v5: uuidv5 } = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const { toJSON, paginate } = require("./plugins");
@@ -10,7 +10,7 @@ const { ACTIVE } = status;
 
 const UserSchema = new Schema(
   {
-    id: { type: String, default: uuidv5 },
+    id: { type: String, default: uuidv4 },
     full_name: { type: String },
     user_name: { type: String, required: true, unique: true },
     dob: { type: Date },
@@ -31,7 +31,7 @@ const UserSchema = new Schema(
       type: String,
       required: true,
       trim: true,
-      minlength: 8,
+      // minlength: 8,
       validate(value) {
         if (!value.match(/\d/) || !value.match(/[a-zA-Z]/)) {
           throw new Error(
@@ -44,12 +44,11 @@ const UserSchema = new Schema(
     user_type: {
       type: [String],
       enum: [GUEST, USER],
-      required: true,
       default: USER,
     },
     status: { type: Boolean, default: ACTIVE },
   },
-  { timestamps: true }
+  { timestamps: true, autoIndex: true }
 );
 
 // add plugin that converts mongoose to json
