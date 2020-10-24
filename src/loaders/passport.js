@@ -3,7 +3,7 @@ const config = require("../config");
 const { tokenTypes } = require("../constants");
 const User = require("../models/user.model");
 
-const Logger = require("./logger");
+const logger = require("./logger");
 
 const jwtOptions = {
   secretOrKey: config.jwt.secret,
@@ -13,7 +13,7 @@ const jwtOptions = {
 const jwtVerify = async (payload, done) => {
   try {
     if (payload.type !== tokenTypes.ACCESS) {
-      Logger.error("Invalid token type");
+      logger.error("Invalid token type");
     }
     const user = await User.findById(payload.sub);
     if (!user) {
