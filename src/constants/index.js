@@ -1,6 +1,5 @@
-const status = require("./status");
-const tags = require("./tags");
-const userTypes = require("./userTypes");
-const tokenTypes = require("./tokenTypes");
+module.exports.status = require("./status");
+module.exports.tags = require("./tags");
+module.exports.userTypes = require("./userTypes");
+module.exports.tokenTypes = require("./tokenTypes");
 
-module.exports = { status, tags, userTypes, tokenTypes };
