@@ -1,9 +1,10 @@
-const { userService } = require("../services");
+const { userService, tokenService } = require("../services");
+
 
 const register = async (payload) => {
   const user = await userService.createUser(payload);
-
-  return { user };
+  const tokens = await tokenService.generateAuthTokens(user);
+  return { user, tokens };
 };
 
 module.exports = {
