@@ -31,7 +31,7 @@ const UserSchema = new Schema(
       type: String,
       required: true,
       trim: true,
-      // minlength: 8,
+      minlength: 8,
       validate(value) {
         if (!value.match(/\d/) || !value.match(/[a-zA-Z]/)) {
           throw new Error(
@@ -41,12 +41,13 @@ const UserSchema = new Schema(
       },
       private: true, // used by the toJSON plugin
     },
+    email_verified_at: { type: Date, default: null },
     user_type: {
-      type: [String],
+      type: String,
       enum: [GUEST, USER],
       default: USER,
     },
-    status: { type: Boolean, default: ACTIVE },
+    status: { type: Boolean, default: ACTIVE, private: true },
   },
   { timestamps: true, autoIndex: true }
 );

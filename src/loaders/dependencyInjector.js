@@ -4,7 +4,6 @@ const LoggerInstance = require("./logger");
 
 module.exports = ({ models }) => {
   try {
-    console.log(models)
     models.map((m) => {
       Container.set(m.name, m.model);
     });
