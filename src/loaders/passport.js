@@ -1,4 +1,5 @@
 const { Strategy: JwtStrategy, ExtractJwt } = require("passport-jwt");
+const { Strategy: GoogleStrategy } = require("passport-google-oauth2");
 const config = require("../config");
 const { tokenTypes } = require("../constants");
 const User = require("../models/user.model");
@@ -27,4 +28,31 @@ const jwtVerify = async (payload, done) => {
 
 const jwtStrategy = new JwtStrategy(jwtOptions, jwtVerify);
 
-module.exports = { jwtStrategy };
+const googleOAuthOptions = {
+  clientID: config.googleOAuth.googleClientId,
+  clientSecret: config.googleOAuth.googleClientSecret,
+  callbackURL: config.googleOAuth.googleCallbackURL,
+  passReqToCallback: true,
+};
+
+const handleProviderLogin = async (
+  request,
+  accessToken,
+  refreshToken,
+  profile,
+  done
+) => {
+  try {
+    // console.log(profile);
+    return done(null, profile);
+  } catch (error) {
+    throw error;
+  }
+};
+
+const googleStrategy = new GoogleStrategy(
+  googleOAuthOptions,
+  handleProviderLogin
+);
+
+module.exports = { jwtStrategy, googleStrategy };
