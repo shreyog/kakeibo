@@ -22,7 +22,15 @@ const envVarsSchema = Joi.object()
     JWT_REFRESH_EXPIRATION_DAYS: Joi.number()
       .default(30)
       .description("days after which refresh tokens expire"),
-    LOG_LEVEL: Joi.string().default("debug")
+    GOOGLE_CLIENT_ID: Joi.string().required().description("Google client Id"),
+    GOOGLE_CLIENT_SECRET: Joi.string()
+      .required()
+      .description("Google client secret key"),
+    GOOGLE_CALLBACK_URL: Joi.string()
+      .required()
+      .description("Google client secret key"),
+    LOG_LEVEL: Joi.string()
+      .default("debug")
       .required()
       .description("winston log level is required"),
   })
@@ -52,6 +60,11 @@ module.exports = {
     accessExpirationMinutes: envVars.JWT_ACCESS_EXPIRATION_MINUTES,
     refreshExpirationDays: envVars.JWT_REFRESH_EXPIRATION_DAYS,
     resetPasswordExpirationMinutes: 10,
+  },
+  googleOAuth: {
+    googleClientId: envVars.GOOGLE_CLIENT_ID,
+    googleClientSecret: envVars.GOOGLE_CLIENT_SECRET,
+    googleCallbackURL: envVars.GOOGLE_CALLBACK_URL,
   },
   logs: {
     level: envVars.LOG_LEVEL,

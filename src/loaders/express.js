@@ -6,7 +6,7 @@ const xss = require("xss-clean");
 const mongoSanitize = require("express-mongo-sanitize");
 const compression = require("compression");
 const passport = require("passport");
-const { jwtStrategy } = require("./passport");
+const { jwtStrategy, googleStrategy } = require("./passport");
 const { NOT_FOUND } = require("http-status");
 const morgan = require("./morgan");
 const router = require("../routes");
@@ -42,9 +42,10 @@ module.exports = async ({ app }) => {
   app.use(cors());
   app.options("*", cors());
 
-  // jwt authentication
+  // passport and it's strategies implementations
   app.use(passport.initialize());
   passport.use("jwt", jwtStrategy);
+  passport.use("google", googleStrategy);
 
   // limit repeated failed requests to auth endpoints
   if (config.env === "production") {
