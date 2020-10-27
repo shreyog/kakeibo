@@ -46,6 +46,16 @@ module.exports = async ({ app }) => {
   app.use(passport.initialize());
   passport.use("jwt", jwtStrategy);
   passport.use("google", googleStrategy);
+  
+  // Used to stuff a piece of information into a cookie
+  passport.serializeUser((user, done) => {
+    done(null, user);
+  });
+
+  // Used to decode the received cookie and persist session
+  passport.deserializeUser((user, done) => {
+    done(null, user);
+  });
 
   // limit repeated failed requests to auth endpoints
   if (config.env === "production") {
