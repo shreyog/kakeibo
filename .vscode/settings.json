@@ -1,10 +1,19 @@
 {
     "cSpell.words": [
         "bluemix",
+        "entity",
         "kakeibo",
+        "luxon",
+        "middlewares",
         "mongodb",
         "mongodb uri",
+        "prefs",
+        "printf",
         "typedi",
-        "uri"
+        "uncolorize",
+        "unprocessable",
+        "unprocessable entity",
+        "uri",
+        "uuidv"
     ]
 }
