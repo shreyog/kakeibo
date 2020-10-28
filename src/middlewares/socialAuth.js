@@ -7,3 +7,7 @@ const socialAuth = async (req, res, next) => {
     .then(() => next())
     .catch((err) => next(err));
 };
+
+module.exports = {
+  socialAuth,
+};
